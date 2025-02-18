@@ -17,15 +17,15 @@ const ItemForm: React.FC<ItemFormProps> = ({ onAdd }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-6">
-      <h2 className="text-xl font-semibold mb-4">Add New Item</h2>
+    <form onSubmit={handleSubmit} className="bg-white bg-opacity-90 backdrop-blur-lg rounded-xl shadow-lg p-6 mb-8 max-w-xl mx-auto">
+      <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">Add New Item</h2>
       <div className="mb-4">
         <input
           type="text"
           placeholder="Title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          className="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-indigo-300"
           required
         />
       </div>
@@ -34,13 +34,13 @@ const ItemForm: React.FC<ItemFormProps> = ({ onAdd }) => {
           placeholder="Description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          className="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-indigo-300"
           required
         />
       </div>
       <button
         type="submit"
-        className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3 rounded-md transition duration-200"
       >
         Add Item
       </button>

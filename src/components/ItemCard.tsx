@@ -19,30 +19,30 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, onDelete, onUpdate }) => {
   };
 
   return (
-    <li className="bg-white shadow rounded p-4 mb-4 transition transform hover:scale-105">
+    <li className="bg-white bg-opacity-90 backdrop-blur-sm shadow-xl rounded-xl p-6 mb-6 transition-transform transform hover:scale-105">
       {isEditing ? (
         <form onSubmit={handleSave}>
           <input
             type="text"
             value={editTitle}
             onChange={(e) => setEditTitle(e.target.value)}
-            className="w-full border p-2 mb-2 rounded focus:outline-none focus:ring"
+            className="w-full border border-gray-300 rounded-md p-3 mb-3 focus:outline-none focus:ring-2 focus:ring-indigo-300"
             required
           />
           <textarea
             value={editDescription}
             onChange={(e) => setEditDescription(e.target.value)}
-            className="w-full border p-2 mb-2 rounded focus:outline-none focus:ring"
+            className="w-full border border-gray-300 rounded-md p-3 mb-3 focus:outline-none focus:ring-2 focus:ring-indigo-300"
             required
           />
-          <div className="flex justify-end space-x-2">
-            <button type="submit" className="bg-green-500 hover:bg-green-600 text-white py-1 px-3 rounded">
+          <div className="flex justify-end space-x-3">
+            <button type="submit" className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md transition">
               Save
             </button>
             <button
               type="button"
               onClick={() => setIsEditing(false)}
-              className="bg-gray-500 hover:bg-gray-600 text-white py-1 px-3 rounded"
+              className="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-md transition"
             >
               Cancel
             </button>
@@ -50,18 +50,18 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, onDelete, onUpdate }) => {
         </form>
       ) : (
         <>
-          <h2 className="text-lg font-bold mb-1">{item.title}</h2>
-          <p className="mb-3">{item.description}</p>
-          <div className="flex justify-end space-x-2">
+          <h2 className="text-xl font-bold text-gray-800 mb-2">{item.title}</h2>
+          <p className="text-gray-600 mb-4">{item.description}</p>
+          <div className="flex justify-end space-x-3">
             <button
               onClick={() => setIsEditing(true)}
-              className="bg-yellow-500 hover:bg-yellow-600 text-white py-1 px-3 rounded"
+              className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-md transition"
             >
               Edit
             </button>
             <button
               onClick={() => onDelete(item.id)}
-              className="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded"
+              className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md transition"
             >
               Delete
             </button>

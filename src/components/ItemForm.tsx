@@ -7,17 +7,28 @@ interface ItemFormProps {
 const ItemForm: React.FC<ItemFormProps> = ({ onAdd }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!title.trim() || !description.trim()) return;
-    await onAdd(title, description);
-    setTitle("");
-    setDescription("");
+    setIsSubmitting(true);
+    try {
+      await onAdd(title, description);
+      setTitle("");
+      setDescription("");
+    } catch (error) {
+      // Optionally handle error here (e.g., show a toast)
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white bg-opacity-90 backdrop-blur-lg rounded-xl shadow-lg p-6 mb-8 max-w-xl mx-auto">
+    <form
+      onSubmit={handleSubmit}
+      className="bg-white bg-opacity-90 backdrop-blur-lg rounded-xl shadow-lg p-6 mb-8 max-w-xl mx-auto"
+    >
       <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">Add New Item</h2>
       <div className="mb-4">
         <input
@@ -40,9 +51,10 @@ const ItemForm: React.FC<ItemFormProps> = ({ onAdd }) => {
       </div>
       <button
         type="submit"
-        className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3 rounded-md transition duration-200"
+        disabled={isSubmitting}
+        className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-3 rounded-md transition duration-200 disabled:opacity-50"
       >
-        Add Item
+        {isSubmitting ? "Adding..." : "Add Item"}
       </button>
     </form>
   );

@@ -11,11 +11,30 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, onDelete, onUpdate }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(item.title);
   const [editDescription, setEditDescription] = useState(item.description);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const handleSave = async (e: FormEvent) => {
     e.preventDefault();
-    await onUpdate({ ...item, title: editTitle, description: editDescription });
-    setIsEditing(false);
+    setIsProcessing(true);
+    try {
+      await onUpdate({ ...item, title: editTitle, description: editDescription });
+      setIsEditing(false);
+    } catch (error) {
+      // Optionally handle error here
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    setIsProcessing(true);
+    try {
+      await onDelete(item.id);
+    } catch (error) {
+      // Optionally handle error here
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   return (
@@ -36,13 +55,18 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, onDelete, onUpdate }) => {
             required
           />
           <div className="flex justify-end space-x-3">
-            <button type="submit" className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md transition">
-              Save
+            <button
+              type="submit"
+              disabled={isProcessing}
+              className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md transition disabled:opacity-50"
+            >
+              {isProcessing ? "Saving..." : "Save"}
             </button>
             <button
               type="button"
+              disabled={isProcessing}
               onClick={() => setIsEditing(false)}
-              className="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-md transition"
+              className="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-md transition disabled:opacity-50"
             >
               Cancel
             </button>
@@ -55,15 +79,17 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, onDelete, onUpdate }) => {
           <div className="flex justify-end space-x-3">
             <button
               onClick={() => setIsEditing(true)}
-              className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-md transition"
+              disabled={isProcessing}
+              className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded-md transition disabled:opacity-50"
             >
               Edit
             </button>
             <button
-              onClick={() => onDelete(item.id)}
-              className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md transition"
+              onClick={handleDelete}
+              disabled={isProcessing}
+              className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md transition disabled:opacity-50"
             >
-              Delete
+              {isProcessing ? "Deleting..." : "Delete"}
             </button>
           </div>
         </>

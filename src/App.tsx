@@ -1,67 +1,11 @@
-// src/App.tsx
-import React, { useEffect, useState, useMemo } from 'react';
-import { Item } from './types';
-import { fetchItems, addItem, updateItem, deleteItem } from './api';
-import ItemForm from './components/ItemForm';
-import ItemList from './components/ItemList';
+import React, { useMemo, useState } from "react";
+import { useItems } from "./hooks/useItems";
+import ItemForm from "./components/ItemForm";
+import ItemList from "./components/ItemList";
 
 const App: React.FC = () => {
-  const [items, setItems] = useState<Item[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { items, loading, error, addNewItem, updateExistingItem, deleteExistingItem } = useItems();
   const [sortOrder, setSortOrder] = useState<"none" | "asc" | "desc">("none");
-
-  const loadItems = async () => {
-    try {
-      setLoading(true);
-      const fetchedItems = await fetchItems();
-      setItems(fetchedItems);
-    } catch (err) {
-      setError("Failed to load items");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    loadItems();
-  }, []);
-
-  const handleAdd = async (title: string, description: string) => {
-    try {
-      setLoading(true);
-      const newItem = await addItem(title, description);
-      setItems((prev) => [newItem, ...prev]);
-    } catch (err) {
-      setError("Failed to add item");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleUpdate = async (item: Item) => {
-    try {
-      setLoading(true);
-      await updateItem(item);
-      setItems((prev) => prev.map((i) => (i.id === item.id ? item : i)));
-    } catch (err) {
-      setError("Failed to update item");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleDelete = async (id: number) => {
-    try {
-      setLoading(true);
-      await deleteItem(id);
-      setItems((prev) => prev.filter((item) => item.id !== id));
-    } catch (err) {
-      setError("Failed to delete item");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const sortedItems = useMemo(() => {
     const sorted = [...items];
@@ -75,18 +19,27 @@ const App: React.FC = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Item List</h1>
+      <header className="mb-8">
+        <h1 className="text-3xl font-bold text-center mb-4">Item Management</h1>
+      </header>
 
-      {error && <p className="text-red-500">{error}</p>}
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6 text-center" role="alert">
+          {error}
+        </div>
+      )}
 
-      <ItemForm onAdd={handleAdd} />
+      <ItemForm onAdd={addNewItem} />
 
-      <div className="mb-4">
-        <label className="mr-2">Sort by Title:</label>
+      <div className="flex items-center justify-center mb-6">
+        <label htmlFor="sort" className="mr-2 font-medium">
+          Sort by Title:
+        </label>
         <select
+          id="sort"
           value={sortOrder}
           onChange={(e) => setSortOrder(e.target.value as "none" | "asc" | "desc")}
-          className="border p-2"
+          className="border rounded p-2"
         >
           <option value="none">None</option>
           <option value="asc">Ascending</option>
@@ -94,7 +47,11 @@ const App: React.FC = () => {
         </select>
       </div>
 
-      {loading ? <p>Loading...</p> : <ItemList items={sortedItems} onDelete={handleDelete} onUpdate={handleUpdate} />}
+      {loading ? (
+        <div className="text-center">Loading...</div>
+      ) : (
+        <ItemList items={sortedItems} onDelete={deleteExistingItem} onUpdate={updateExistingItem} />
+      )}
     </div>
   );
 };

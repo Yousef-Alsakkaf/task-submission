@@ -1,5 +1,5 @@
-import React, { useState, FormEvent } from 'react';
-import { Item } from '../types';
+import React, { useState, FormEvent } from "react";
+import { Item } from "../types";
 
 interface ItemCardProps {
   item: Item;
@@ -19,30 +19,30 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, onDelete, onUpdate }) => {
   };
 
   return (
-    <li className="border p-4 mb-2 rounded">
+    <li className="bg-white shadow rounded p-4 mb-4 transition transform hover:scale-105">
       {isEditing ? (
         <form onSubmit={handleSave}>
           <input
             type="text"
             value={editTitle}
             onChange={(e) => setEditTitle(e.target.value)}
-            className="border p-2 mb-2 block w-full"
+            className="w-full border p-2 mb-2 rounded focus:outline-none focus:ring"
             required
           />
           <textarea
             value={editDescription}
             onChange={(e) => setEditDescription(e.target.value)}
-            className="border p-2 mb-2 block w-full"
+            className="w-full border p-2 mb-2 rounded focus:outline-none focus:ring"
             required
           />
-          <div>
-            <button type="submit" className="bg-green-500 text-white p-2 mr-2">
+          <div className="flex justify-end space-x-2">
+            <button type="submit" className="bg-green-500 hover:bg-green-600 text-white py-1 px-3 rounded">
               Save
             </button>
             <button
               type="button"
               onClick={() => setIsEditing(false)}
-              className="bg-gray-500 text-white p-2"
+              className="bg-gray-500 hover:bg-gray-600 text-white py-1 px-3 rounded"
             >
               Cancel
             </button>
@@ -50,18 +50,18 @@ const ItemCard: React.FC<ItemCardProps> = ({ item, onDelete, onUpdate }) => {
         </form>
       ) : (
         <>
-          <h2 className="font-bold">{item.title}</h2>
-          <p>{item.description}</p>
-          <div className="mt-2">
+          <h2 className="text-lg font-bold mb-1">{item.title}</h2>
+          <p className="mb-3">{item.description}</p>
+          <div className="flex justify-end space-x-2">
             <button
               onClick={() => setIsEditing(true)}
-              className="bg-yellow-500 text-white p-2 mr-2"
+              className="bg-yellow-500 hover:bg-yellow-600 text-white py-1 px-3 rounded"
             >
               Edit
             </button>
             <button
               onClick={() => onDelete(item.id)}
-              className="bg-red-500 text-white p-2"
+              className="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded"
             >
               Delete
             </button>

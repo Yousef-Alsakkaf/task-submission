@@ -25,37 +25,28 @@ export const useItems = () => {
 
   const addNewItem = async (title: string, description: string) => {
     try {
-      setLoading(true);
       const newItem = await addItem(title, description);
       setItems((prev) => [newItem, ...prev]);
     } catch (err) {
-      setError("Failed to add item");
-    } finally {
-      setLoading(false);
+      throw new Error("Failed to add item");
     }
   };
 
   const updateExistingItem = async (item: Item) => {
     try {
-      setLoading(true);
       await updateItem(item);
       setItems((prev) => prev.map((i) => (i.id === item.id ? item : i)));
     } catch (err) {
-      setError("Failed to update item");
-    } finally {
-      setLoading(false);
+      throw new Error("Failed to update item");
     }
   };
 
   const deleteExistingItem = async (id: number) => {
     try {
-      setLoading(true);
       await deleteItem(id);
       setItems((prev) => prev.filter((item) => item.id !== id));
     } catch (err) {
-      setError("Failed to delete item");
-    } finally {
-      setLoading(false);
+      throw new Error("Failed to delete item");
     }
   };
 

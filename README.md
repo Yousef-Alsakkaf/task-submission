@@ -24,9 +24,7 @@ A modern, responsive item management application built with React, TypeScript, a
 ## Demo
 
 Check out the live deployed application:  
-[Modern Item Manager Live](https://your-deployed-url.com)
-
-> **Note:** Replace `https://your-deployed-url.com` with your actual deployed application's URL.
+[Item Manager Live](https://task-submission-eight.vercel.app/) 
 
 ## Installation
 
@@ -56,3 +54,5 @@ npm start
 ```
 
 The application will automatically open in your default browser at http://localhost:3000. If it doesn't, simply open your browser and navigate to that URL.
+
+This is the public url : https://task-submission-eight.vercel.app/

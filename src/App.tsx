@@ -21,7 +21,7 @@ const App: React.FC = () => {
     <div className="min-h-screen bg-gradient-to-r from-indigo-700 via-purple-700 to-pink-600 p-6">
       <header className="mb-10">
         <h1 className="text-4xl font-extrabold text-center text-white drop-shadow-lg">
-          Modern Item Manager
+           Item Manager
         </h1>
       </header>
 
